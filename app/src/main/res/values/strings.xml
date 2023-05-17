@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">HL</string>
+    <string name="str_profile">Профиль</string>
+    <string name="str_tasks">Задания</string>
+    <string name="str_clan">Клан</string>
+    <string name="textview_name">Имя</string>
+    <string name="textview_score_for_day">Количество баллов за сегодня:</string>
+    <string name="textview_score_all">Общее количество баллов:</string>
+
+</resources>
