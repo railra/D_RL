@@ -16,7 +16,7 @@
         android:ems="10"
         android:hint="Email"
         android:inputType="text"
-        android:minHeight="48dp" />
+        android:minHeight="48dp"/>
 
     <EditText
         android:id="@+id/et_lpassword"

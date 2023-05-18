@@ -20,7 +20,7 @@ import java.util.List;
 public class CustomArrayAdapter extends ArrayAdapter<TaskListItem> {
 
     private LayoutInflater inflater;
-    private List<TaskListItem> listItemAd;
+    private List<TaskListItem> listItemAd = new ArrayList<>();
     private Context context;
 
 
