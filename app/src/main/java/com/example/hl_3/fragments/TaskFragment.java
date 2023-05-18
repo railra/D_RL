@@ -20,6 +20,8 @@ import com.example.hl_3.adapters.CustomArrayAdapter;
 import com.example.hl_3.models.Task;
 import com.example.hl_3.utilities.TaskListItem;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,6 +41,7 @@ public class TaskFragment extends Fragment {
     private TaskListItem listItemFr;
     private DatabaseReference mDataBase;
 
+    String uid;
 
 
     @Override
@@ -53,16 +56,21 @@ public class TaskFragment extends Fragment {
     }
     private void init()
     {
+
         mDataBase = FirebaseDatabase.getInstance().getReference("Task");
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         listItemMainFr = new ArrayList<>();
         doneTasksList = getView().findViewById(R.id.list_taskk);
         adapter_task = new CustomArrayAdapter(getContext(), R.layout.list_item, listItemMainFr, getLayoutInflater());
         doneTasksList.setAdapter(adapter_task);
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        String uid = currentUser.getUid();
         ValueEventListener vListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
@@ -70,12 +78,15 @@ public class TaskFragment extends Fragment {
                 if(listItemMainFr.size() > 0)listItemMainFr.clear();
                 for(DataSnapshot ds : dataSnapshot.getChildren())
                 {
+
                     Task task = ds.getValue(Task.class);
                     assert task != null;
-                    listItemFr = new TaskListItem();
-                    listItemFr.setNameTask(task.name);
-                    listItemFr.setAmountTask(Integer.parseInt(task.amount));
-                    listItemMainFr.add(listItemFr);
+                    if(task.user.equals(uid)){
+                        listItemFr = new TaskListItem();
+                        listItemFr.setNameTask(task.name);
+                        listItemFr.setAmountTask(Integer.parseInt(task.amount));
+                        listItemMainFr.add(listItemFr);
+                    }
                 }
                 adapter_task.notifyDataSetChanged();
             }
