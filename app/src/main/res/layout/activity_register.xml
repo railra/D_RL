@@ -18,7 +18,8 @@
         android:ems="10"
         android:hint="Email"
         android:inputType="text"
-        android:minHeight="48dp" />
+        android:minHeight="48dp"
+        android:visibility="gone" />
 
 
     <EditText
@@ -31,7 +32,8 @@
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
-        android:minHeight="48dp" />
+        android:minHeight="48dp"
+        android:visibility="gone" />
 
     <EditText
         android:id="@+id/et_cpassword"
@@ -43,26 +45,59 @@
         android:ems="10"
         android:hint="Confirm Password"
         android:inputType="textPassword"
-        android:minHeight="48dp" />
+        android:minHeight="48dp"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/btn_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="400dp"
         android:ems="10"
         android:text="Register"
-        android:layout_below="@+id/et_cpassword" />
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/btn_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:ems="10"
-        android:text="Login"
-        android:layout_alignParentBottom="true"/>
+        android:text="Login" />
+
+    <EditText
+        android:id="@+id/et_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:hint="Name"
+        android:inputType="text"
+        android:minHeight="48dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_marginTop="118dp"
+        android:text="Для завершения регистрации \n напишите свое имя и подтвердите \nсвою почту" />
+
+    <Button
+        android:id="@+id/btn_ver_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="400dp"
+        android:ems="10"
+        android:text="Register" />
 
 
 </RelativeLayout>

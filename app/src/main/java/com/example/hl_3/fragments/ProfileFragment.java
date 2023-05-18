@@ -14,6 +14,16 @@ import android.widget.TextView;
 import com.example.hl_3.DatabaseHelper;
 import com.example.hl_3.MainActivity;
 import com.example.hl_3.R;
+import com.example.hl_3.models.Task;
+import com.example.hl_3.models.User;
+import com.example.hl_3.utilities.TaskListItem;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class ProfileFragment extends Fragment {
@@ -21,12 +31,14 @@ public class ProfileFragment extends Fragment {
     private TextView scoreForDay, scoreAll, playerName;
     DatabaseHelper databaseHelper;
     int arrayLength;
+    private DatabaseReference mDataBase;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         arrayLength = MainActivity.arrayAmount.size();
+        mDataBase = FirebaseDatabase.getInstance().getReference("User");
     }
 
     @Override
@@ -38,15 +50,36 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        String username="";
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        String uEmail = currentUser.getEmail();
+
         databaseHelper = new DatabaseHelper(getContext());
         playerName = getView().findViewById(R.id.player_name);
-        scoreForDay = getView().findViewById(R.id.score_today);
-        scoreAll= getView().findViewById(R.id.score_all);
 
-        scoreForDay.setText(String.valueOf(scoreSum()));
-        scoreAll.setText(String.valueOf(scoreSum()));
+        ValueEventListener vListener = new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot)
+            {
+                for(DataSnapshot ds : snapshot.getChildren())
+                {
 
+                    User user = ds.getValue(User.class);
+                    assert user != null;
+                    if(user.email.equals(uEmail)){
+                        playerName.setText(user.name);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error)
+            {
+
+            }
+        };
+        mDataBase.addValueEventListener(vListener);
 
     }
 
