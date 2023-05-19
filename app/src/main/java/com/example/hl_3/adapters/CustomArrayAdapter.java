@@ -1,6 +1,5 @@
 package com.example.hl_3.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +36,7 @@ public class CustomArrayAdapter extends ArrayAdapter<TaskListItem> {
 
         ViewHolder viewHolder;
         TaskListItem listItemTask = listItemAd.get(position);
-        convertView = inflater.inflate(R.layout.list_item, null, false);
+        convertView = inflater.inflate(R.layout.task_list_item, null, false);
         viewHolder = new ViewHolder();
         viewHolder.nameTask = convertView.findViewById(R.id.name_task);
         viewHolder.amountTask = convertView.findViewById(R.id.amount_task);
