@@ -23,6 +23,7 @@
         </activity>
         <activity android:name="com.example.hl_3.MainActivity" />
         <activity android:name="com.example.hl_3.Register" />
+        <activity android:name="com.example.hl_3.Admin" />
 
     </application>
 
