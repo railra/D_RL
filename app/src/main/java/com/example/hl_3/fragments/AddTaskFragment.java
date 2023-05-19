@@ -11,16 +11,21 @@ import android.widget.TimePicker;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.hl_3.MainActivity;
 import com.example.hl_3.R;
 import com.example.hl_3.models.Task;
+import com.example.hl_3.models.User;
 import com.example.hl_3.utilities.TaskListItem;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,8 +39,9 @@ public class AddTaskFragment extends Fragment {
     private FloatingActionButton saveBtn;
     private TaskFragment taskFragment = new TaskFragment();
     private List<TaskListItem> listItemMain;
-    private DatabaseReference mDataBase;
+    private DatabaseReference taskDataBase, userDataBase;
     private String TASK_KEY = "Task";
+    private int s = 1;
     private TaskListItem listItemFr;
 
     @Override
@@ -59,6 +65,7 @@ public class AddTaskFragment extends Fragment {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
         String uid = currentUser.getUid();
+        String uEmail = currentUser.getEmail();
         editTaskName = getView().findViewById(R.id.editTextTaskName);
         editTaskAmount = getView().findViewById(R.id.editTextTaskAmount);
         editStartTime = getView().findViewById(R.id.editStartTime);
@@ -67,17 +74,47 @@ public class AddTaskFragment extends Fragment {
         SimpleDateFormat timeF = new SimpleDateFormat("HH:mm", Locale.getDefault());
 
         listItemFr = new TaskListItem();
-        mDataBase = FirebaseDatabase.getInstance().getReference(TASK_KEY);
+        userDataBase = FirebaseDatabase.getInstance().getReference("User");
+        taskDataBase = FirebaseDatabase.getInstance().getReference("Task");
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String id = mDataBase.getKey();
+                String id = taskDataBase.child("Task").getKey();
                 String name = editTaskName.getText().toString();
                 String amount = editTaskAmount.getText().toString();
                 String start = editStartTime.getText().toString();
                 String end = editEndTime.getText().toString();
                 Task newTask = new Task(id, name, amount, start, end, uid);
-                mDataBase.push().setValue(newTask);
+                taskDataBase.push().setValue(newTask);
+                s = 1;
+                ValueEventListener v1Listener = new ValueEventListener()
+                {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot)
+                    {
+                        for(DataSnapshot ds : snapshot.getChildren())
+                        {
+
+                            User user = ds.getValue(User.class);
+                            assert user != null;
+                            if(user.email.equals(uEmail)){
+                                if(s == 1){
+                                    s = 0;
+                                    userDataBase.child(user.email.substring(0, user.email.indexOf("@"))).child("score").setValue(user.score+Integer.parseInt(amount));
+                                }
+
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error)
+                    {
+
+                    }
+                };
+                userDataBase.addValueEventListener(v1Listener);
 
             }
         });

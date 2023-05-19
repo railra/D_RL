@@ -56,6 +56,7 @@ public class ProfileFragment extends Fragment {
 
         databaseHelper = new DatabaseHelper(getContext());
         playerName = getView().findViewById(R.id.player_name);
+        scoreAll = getView().findViewById(R.id.score_all);
 
         ValueEventListener vListener = new ValueEventListener()
         {
@@ -69,6 +70,7 @@ public class ProfileFragment extends Fragment {
                     assert user != null;
                     if(user.email.equals(uEmail)){
                         playerName.setText(user.name);
+                        scoreAll.setText(user.score);
                     }
                 }
             }

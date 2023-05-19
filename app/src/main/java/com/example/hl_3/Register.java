@@ -86,7 +86,7 @@ public class Register extends AppCompatActivity {
                                     btn_ver_register.setVisibility(View.VISIBLE);
                                     et_name.setVisibility(View.VISIBLE);
                                     textView.setVisibility(View.VISIBLE);
-                                    Toast.makeText(getApplicationContext(), "Пользователь зарегестрирован", Toast.LENGTH_SHORT).show();
+
                                 }
                                 else
                                 {
@@ -109,10 +109,21 @@ public class Register extends AppCompatActivity {
         btn_ver_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = et_username.getText().toString();
-                String name = et_name.getText().toString();
-                com.example.hl_3.models.User newUser = new com.example.hl_3.models.User(username, name);
-                mDataBase.push().setValue(newUser);
+                if(!TextUtils.isEmpty(et_name.getText())){
+                    String username = et_username.getText().toString();
+                    String name = et_name.getText().toString();
+
+                    com.example.hl_3.models.User newUser = new com.example.hl_3.models.User(username, name, 0);
+                    mDataBase.child(username.substring(0, username.indexOf("@"))).setValue(newUser);
+                    Intent intent = new Intent(Register.this, Login.class);
+
+                    startActivity(intent);
+                    Toast.makeText(getApplicationContext(), "Пользователь зарегестрирован", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "Введите имя", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }
