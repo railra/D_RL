@@ -55,7 +55,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="0"
             android:textAlignment="center"
             android:textSize="24sp" />
     </LinearLayout>
@@ -64,9 +63,11 @@
         android:id="@+id/bLogOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="376dp"
+        android:layout_marginTop="244dp"
+        android:onClick="onClickSignOut"
         android:text="Log out"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_score" />
 

@@ -1,5 +1,6 @@
 package com.example.hl_3.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.hl_3.DatabaseHelper;
+import com.example.hl_3.Login;
 import com.example.hl_3.MainActivity;
 import com.example.hl_3.R;
 import com.example.hl_3.models.Task;
@@ -48,14 +50,12 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
         String uEmail = currentUser.getEmail();
-
         databaseHelper = new DatabaseHelper(getContext());
         playerName = getView().findViewById(R.id.player_name);
         scoreAll = getView().findViewById(R.id.score_all);
@@ -73,7 +73,7 @@ public class ProfileFragment extends Fragment {
                     assert user != null;
                     if(user.email.equals(uEmail)){
                         playerName.setText(user.name);
-                        scoreAll.setText(user.score);
+                        scoreAll.setText(String.valueOf(user.score));
                     }
                 }
             }
@@ -86,13 +86,17 @@ public class ProfileFragment extends Fragment {
         };
         mDataBase.addValueEventListener(vListener);
 
+        bLogOut.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                FirebaseAuth.getInstance().signOut();
+                Intent i = new Intent(getActivity(), Login.class);
+                startActivity(i);
+            }
+        });
     }
 
-    private int scoreSum(){
-        int scoreSum = 0;
-        for (int i = 0; i < arrayLength; i++) {
-            scoreSum += MainActivity.arrayAmount.get(i);
-        }
-        return scoreSum;
-    }
+
 }
