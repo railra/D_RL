@@ -1,6 +1,5 @@
 package com.example.hl_3.fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,17 +8,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 
-import com.example.hl_3.MainActivity;
 import com.example.hl_3.R;
 import com.example.hl_3.adapters.CustomArrayAdapter;
 import com.example.hl_3.models.Task;
 import com.example.hl_3.utilities.TaskListItem;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -66,7 +60,7 @@ public class TaskFragment extends Fragment {
 
         listItemMainFr = new ArrayList<>();
         doneTasksList = getView().findViewById(R.id.list_taskk);
-        adapter_task = new CustomArrayAdapter(getContext(), R.layout.list_item, listItemMainFr, getLayoutInflater());
+        adapter_task = new CustomArrayAdapter(getContext(), R.layout.task_list_item, listItemMainFr, getLayoutInflater());
         doneTasksList.setAdapter(adapter_task);
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
