@@ -7,7 +7,7 @@
     <ImageView
         android:id="@+id/iconImageView"
         android:layout_width="49dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
         android:src="@drawable/acc" />
 
