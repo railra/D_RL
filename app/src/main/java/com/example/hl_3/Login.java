@@ -28,7 +28,20 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_login);
+        FirebaseUser cUser = mAuth.getCurrentUser();
+        if(cUser != null)
+        {
+            if(cUser.getEmail().equals("railra498@gmail.com")){
+                Intent intent = new Intent(Login.this, Admin.class);
+                startActivity(intent);
+            }
+            else{
+                Intent intent = new Intent(Login.this, MainActivity.class);
+                startActivity(intent);
+            }
+        }
 
         //databaseHelper = new DatabaseHelper(Login.this);
 
@@ -37,7 +50,7 @@ public class Login extends AppCompatActivity {
 
         btn_llogin = (Button)findViewById(R.id.btn_llogin);
         btn_lregister = (Button)findViewById(R.id.btn_lregister);
-        mAuth = FirebaseAuth.getInstance();
+
 
         btn_lregister.setOnClickListener(new View.OnClickListener() {
             @Override
