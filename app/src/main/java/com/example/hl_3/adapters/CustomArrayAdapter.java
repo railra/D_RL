@@ -41,13 +41,17 @@ public class CustomArrayAdapter extends ArrayAdapter<TaskListItem> {
         viewHolder = new ViewHolder();
         viewHolder.nameTask = convertView.findViewById(R.id.name_task);
         viewHolder.amountTask = convertView.findViewById(R.id.amount_task);
+        viewHolder.startTask = convertView.findViewById(R.id.textViewStartTime);
+        viewHolder.endTask = convertView.findViewById(R.id.textViewEndTime);
         viewHolder.nameTask.setText(listItemTask.getNameTask());
         viewHolder.amountTask.setText(String.valueOf(listItemTask.getAmountTask()));
+        viewHolder.startTask.setText(String.valueOf(listItemTask.getStartTask()));
+        viewHolder.endTask.setText(String.valueOf(listItemTask.getEndTask()));
+
         return convertView;
     }
 
     private class ViewHolder {
-        TextView nameTask;
-        TextView amountTask;
+        TextView nameTask, amountTask, startTask, endTask;
     }
 }

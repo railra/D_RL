@@ -5,10 +5,25 @@ import java.util.List;
 
 public class TaskListItem {
 
-    String nameTask;
+    String nameTask, startTask, endTask;
     int amountTask;
 
 
+    public String getStartTask() {
+        return startTask;
+    }
+
+    public void setStartTask(String startTask) {
+        this.startTask = startTask;
+    }
+
+    public String getEndTask() {
+        return endTask;
+    }
+
+    public void setEndTask(String endTask) {
+        this.endTask = endTask;
+    }
 
     public String getNameTask() {
         return nameTask;

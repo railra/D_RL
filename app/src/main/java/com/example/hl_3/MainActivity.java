@@ -18,6 +18,7 @@ import com.example.hl_3.adapters.CustomArrayAdapter;
 import com.example.hl_3.fragments.AddTaskFragment;
 import com.example.hl_3.fragments.ClanFragment;
 import com.example.hl_3.fragments.ProfileFragment;
+import com.example.hl_3.fragments.RatingFragment;
 import com.example.hl_3.fragments.TaskFragment;
 import com.example.hl_3.utilities.TaskListItem;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -44,10 +45,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         arrayName = new ArrayList<>();
         arrayAmount = new ArrayList<>();
-        ProfileFragment profileView = new ProfileFragment();
-        FragmentTransaction profileTrans = getSupportFragmentManager().beginTransaction();
-        profileTrans.replace(R.id.container, profileView);
-        profileTrans.commit();
+        TaskFragment taskView = new TaskFragment();
+        FragmentTransaction taskTrans = getSupportFragmentManager().beginTransaction();
+        taskTrans.replace(R.id.container, taskView);
+        taskTrans.commit();
 
     }
 
@@ -68,6 +69,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void onClickRating(View view){
+        RatingFragment ratingView = new RatingFragment();
+        FragmentTransaction ratingTrans = getSupportFragmentManager().beginTransaction();
+        ratingTrans.replace(R.id.container, ratingView);
+        ratingTrans.commit();
+    }
     public void onClickClan(View view)
     {
         ClanFragment clanView = new ClanFragment();

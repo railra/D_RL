@@ -85,6 +85,8 @@ public class TaskFragment extends Fragment {
                         listItemFr = new TaskListItem();
                         listItemFr.setNameTask(task.name);
                         listItemFr.setAmountTask(Integer.parseInt(task.amount));
+                        listItemFr.setStartTask(task.start);
+                        listItemFr.setEndTask(task.end);
                         listItemMainFr.add(listItemFr);
                     }
                 }

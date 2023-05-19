@@ -18,17 +18,6 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/button6"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-
-            android:onClick="onClickProfile"
-            android:text="@string/str_profile"
-            android:textAlignment="center" />
-
-        <Button
             android:id="@+id/button5"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
@@ -37,7 +26,18 @@
 
             android:onClick="onClickTask"
             android:text="@string/str_tasks"
-            android:textAlignment="center"/>
+            android:textAlignment="center" />
+
+        <Button
+            android:id="@+id/button1"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+
+            android:onClick="onClickRating"
+            android:text="@string/str_rating"
+            android:textAlignment="center" />
 
         <Button
             android:id="@+id/button7"
@@ -48,7 +48,7 @@
 
             android:onClick="onClickClan"
             android:text="@string/str_clan"
-            android:textAlignment="center"/>
+            android:textAlignment="center" />
     </LinearLayout>
 
     <FrameLayout
@@ -75,4 +75,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/str_profile"
+        android:minHeight="48dp"
+        android:onClick="onClickProfile"
+        app:layout_constraintEnd_toEndOf="@+id/container"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/baseline_person_24" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
