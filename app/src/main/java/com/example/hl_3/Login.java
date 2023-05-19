@@ -59,8 +59,14 @@ public class Login extends AppCompatActivity {
                 {
                     if (task.isSuccessful())
                     {
-                        Intent intent = new Intent(Login.this, MainActivity.class);
-                        startActivity(intent);
+                        if(username.equals("railra498@gmail.com")){
+                            Intent intent = new Intent(Login.this, Admin.class);
+                            startActivity(intent);
+                        }
+                        else{
+                            Intent intent = new Intent(Login.this, MainActivity.class);
+                            startActivity(intent);
+                        }
                         Toast.makeText(getApplicationContext(), "User SignIn Successful", Toast.LENGTH_SHORT).show();
                     } else
                     {
