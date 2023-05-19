@@ -91,44 +91,6 @@ public class MainActivity extends AppCompatActivity {
         addTrans.commit();
     }
 
-
-
-    /*
-    public void onClickf(View view)
-    {
-
-        SharedPreferences.Editor edit = preferences.edit();
-        String name = editTaskName.getText().toString();
-        edit.putString(save_task_name, name);
-        edit.putString(save_task_amount, editTaskAmount.getText().toString());
-        edit.apply();
-
-
-            //add_task = findViewById(R.id.button_add);
-            //listItemMainFr = (List<TaskListItem>) preferences.getAll();
-            //listItemMainFr.add((TaskListItem) preferences.getAll());
-            getName = editTaskName.getText().toString();
-            getAmount = editTaskAmount.getText().toString();
-
-            listItemFr = new TaskListItem();
-            listItemFr.setNameTask(getName);
-            listItemFr.setAmountTask(getAmount);
-            //listItemFr.setNameTask(preferences.getString(save_task_name, "empty"));
-            //listItemFr.setAmountTask(preferences.getString(save_task_amount, "ewfwef"));
-            listItemMainFr.add(listItemFr);
-            adapter_task.notifyDataSetChanged();
-
-
-
-        TaskFragment taskView = new TaskFragment();
-        FragmentTransaction taskTrans = getSupportFragmentManager().beginTransaction();
-        taskTrans.replace(R.id.container, taskView);
-        taskTrans.commit();
-
-
-    }
-    */
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
