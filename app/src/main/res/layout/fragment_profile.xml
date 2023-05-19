@@ -10,11 +10,11 @@
         android:id="@+id/player_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="88dp"
         android:text=""
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,14 +28,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/player_name">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="@string/textview_score_for_day"
-            android:textAlignment="center"
-            android:textSize="18dp" />
 
         <TextView
             android:id="@+id/textView3"
@@ -59,15 +51,6 @@
         tools:layout_editor_absoluteX="198dp">
 
         <TextView
-            android:id="@+id/score_today"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="0"
-            android:textAlignment="center"
-            android:textSize="24sp" />
-
-        <TextView
             android:id="@+id/score_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -76,6 +59,16 @@
             android:textAlignment="center"
             android:textSize="24sp" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/bLogOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="376dp"
+        android:text="Log out"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_score" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

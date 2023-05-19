@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.hl_3.DatabaseHelper;
@@ -29,6 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 public class ProfileFragment extends Fragment {
 
     private TextView scoreForDay, scoreAll, playerName;
+    private Button bLogOut;
     DatabaseHelper databaseHelper;
     int arrayLength;
     private DatabaseReference mDataBase;
@@ -57,6 +59,7 @@ public class ProfileFragment extends Fragment {
         databaseHelper = new DatabaseHelper(getContext());
         playerName = getView().findViewById(R.id.player_name);
         scoreAll = getView().findViewById(R.id.score_all);
+        bLogOut = getView().findViewById(R.id.bLogOut);
 
         ValueEventListener vListener = new ValueEventListener()
         {
