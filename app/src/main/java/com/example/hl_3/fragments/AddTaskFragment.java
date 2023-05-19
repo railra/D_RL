@@ -111,11 +111,13 @@ public class AddTaskFragment extends Fragment {
                     @Override
                     public void onCancelled(@NonNull DatabaseError error)
                     {
-
                     }
                 };
                 userDataBase.addValueEventListener(v1Listener);
-
+                TaskFragment taskView = new TaskFragment();
+                FragmentTransaction taskTrans = getParentFragmentManager().beginTransaction();
+                taskTrans.replace(R.id.container, taskView);
+                taskTrans.commit();
             }
         });
 
