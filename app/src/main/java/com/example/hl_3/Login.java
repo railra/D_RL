@@ -1,15 +1,15 @@
 package com.example.hl_3;
+
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -33,7 +33,7 @@ public class Login extends AppCompatActivity {
         FirebaseUser cUser = mAuth.getCurrentUser();
         if(cUser != null)
         {
-            if(cUser.getEmail().equals("railra498@gmail.com")){
+            if(cUser.getEmail().equals("railra48@gmail.com")){
                 Intent intent = new Intent(Login.this, Admin.class);
                 startActivity(intent);
             }

@@ -1,14 +1,16 @@
 package com.example.hl_3.fragments;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ListView;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.hl_3.R;
 import com.example.hl_3.adapters.CustomArrayAdapter;
@@ -35,7 +37,7 @@ public class TaskFragment extends Fragment {
     private TaskListItem listItemFr;
     private DatabaseReference mDataBase;
 
-    String uid;
+    String u;
 
 
     @Override
@@ -50,7 +52,6 @@ public class TaskFragment extends Fragment {
     }
     private void init()
     {
-
         mDataBase = FirebaseDatabase.getInstance().getReference("Task");
     }
 
@@ -78,6 +79,7 @@ public class TaskFragment extends Fragment {
                     if(task.user.equals(uid)){
                         listItemFr = new TaskListItem();
                         listItemFr.setNameTask(task.name);
+                        listItemFr.setIdTask(task.id);
                         listItemFr.setAmountTask(Integer.parseInt(task.amount));
                         listItemFr.setStartTask(task.start);
                         listItemFr.setEndTask(task.end);
@@ -92,6 +94,27 @@ public class TaskFragment extends Fragment {
             }
         };
         mDataBase.addValueEventListener(vListener);
+        setOnClickItem();
+    }
+    private void setOnClickItem()
+    {
+        doneTasksList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TaskListItem task = listItemMainFr.get(position);
+                AddTaskFragment fragment = new AddTaskFragment();
+                Bundle args = new Bundle();
+                args.putString("task_id", task.getIdTask());
+                args.putString("task_name", task.getNameTask());
+                args.putString("task_amount", String.valueOf(task.getAmountTask()));
+                args.putString("task_start", task.getStartTask());
+                args.putString("task_end", task.getEndTask());
+                fragment.setArguments(args);
+                FragmentTransaction taskTrans = getParentFragmentManager().beginTransaction();
+                taskTrans.replace(R.id.container, fragment);
+                taskTrans.commit();
+            }
+        });
     }
 
 

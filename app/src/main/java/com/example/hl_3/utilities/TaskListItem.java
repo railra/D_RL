@@ -1,11 +1,8 @@
 package com.example.hl_3.utilities;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class TaskListItem {
 
-    String nameTask, startTask, endTask;
+    String idTask, nameTask, startTask, endTask;
     int amountTask;
 
 
@@ -28,9 +25,15 @@ public class TaskListItem {
     public String getNameTask() {
         return nameTask;
     }
+    public String getIdTask() {
+        return idTask;
+    }
 
     public void setNameTask(String nameTask) {
         this.nameTask = nameTask;
+    }
+    public void setIdTask(String idTask) {
+        this.idTask = idTask;
     }
 
     public int getAmountTask() {

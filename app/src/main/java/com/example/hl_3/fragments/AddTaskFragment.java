@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.hl_3.MainActivity;
 import com.example.hl_3.R;
 import com.example.hl_3.models.Task;
 import com.example.hl_3.models.User;
@@ -28,7 +27,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -40,53 +38,71 @@ public class AddTaskFragment extends Fragment {
     private TaskFragment taskFragment = new TaskFragment();
     private List<TaskListItem> listItemMain;
     private DatabaseReference taskDataBase, userDataBase;
-    private String TASK_KEY = "Task";
-    private int s = 1;
-    private TaskListItem listItemFr;
+    private String TASK_KEY = "Task", s1;
+    String firstAmount;
+    int sum;
+    private boolean updateData = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 
-
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
         return inflater.inflate(R.layout.add_list_item, container, false);
-    }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-        String uid = currentUser.getUid();
-        String uEmail = currentUser.getEmail();
+    }
+    private void init()
+    {
         editTaskName = getView().findViewById(R.id.editTextTaskName);
         editTaskAmount = getView().findViewById(R.id.editTextTaskAmount);
         editStartTime = getView().findViewById(R.id.editStartTime);
         editEndTime = getView().findViewById(R.id.editEndTime);
         saveBtn = getView().findViewById(R.id.button_save);
-        SimpleDateFormat timeF = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        Bundle args = getArguments();
+        if (args != null) {
+            s1 = args.getString("task_id");
+            editTaskName.setText(args.getString("task_name"));
+            firstAmount = args.getString("task_amount");
+            editStartTime.setText(args.getString("task_start"));
+            editEndTime.setText(args.getString("task_end"));
+            editTaskAmount.setText(firstAmount);
+        }
 
-        listItemFr = new TaskListItem();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        init();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        String userId = currentUser.getUid();
+        String userEmail = currentUser.getEmail();
+
+        SimpleDateFormat timeF = new SimpleDateFormat("HH:mm", Locale.getDefault());
         userDataBase = FirebaseDatabase.getInstance().getReference("User");
         taskDataBase = FirebaseDatabase.getInstance().getReference("Task");
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String id = taskDataBase.child("Task").getKey();
                 String name = editTaskName.getText().toString();
                 String amount = editTaskAmount.getText().toString();
                 String start = editStartTime.getText().toString();
                 String end = editEndTime.getText().toString();
-                Task newTask = new Task(id, name, amount, start, end, uid);
-                taskDataBase.push().setValue(newTask);
-                s = 1;
+                if(s1 != null){
+                    Task newTask = new Task(s1, name, amount, start, end, userId);
+                    taskDataBase.child(s1).setValue(newTask);
+                }
+                else{
+                    String id = taskDataBase.push().getKey();
+                    Task newTask = new Task(id, name, amount, start, end, userId);
+                    taskDataBase.child(id).setValue(newTask);
+                }
+                updateData = true;
                 ValueEventListener v1Listener = new ValueEventListener()
                 {
                     @Override
@@ -97,14 +113,20 @@ public class AddTaskFragment extends Fragment {
 
                             User user = ds.getValue(User.class);
                             assert user != null;
-                            if(user.email.equals(uEmail)){
-                                if(s == 1){
-                                    s = 0;
-                                    userDataBase.child(user.email.substring(0, user.email.indexOf("@"))).child("score").setValue(user.score+Integer.parseInt(amount));
+                            if(user.email.equals(userEmail)){
+                                if(updateData == true){
+                                    updateData = false;
+                                    sum = Integer.parseInt(amount);
+                                    if(s1!=null){
+                                        sum = Integer.parseInt(amount) - Integer.parseInt(firstAmount);
+                                    }
+                                    userDataBase.child(user.email.substring(0, user.email.indexOf("@"))).child("score").setValue(user.score+sum);
                                 }
 
                             }
                         }
+                        s1 = null;
+                        firstAmount = null;
 
                     }
 
