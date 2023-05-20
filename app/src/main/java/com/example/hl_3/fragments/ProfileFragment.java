@@ -31,7 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class ProfileFragment extends Fragment {
 
-    private TextView scoreForDay, scoreAll, playerName;
+    private TextView scoreAll, playerName;
     private Button bLogOut;
     DatabaseHelper databaseHelper;
     int arrayLength;
