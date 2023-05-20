@@ -25,12 +25,13 @@ public class TaskListItem {
     public String getNameTask() {
         return nameTask;
     }
-    public String getIdTask() {
-        return idTask;
-    }
+
 
     public void setNameTask(String nameTask) {
         this.nameTask = nameTask;
+    }
+    public String getIdTask() {
+        return idTask;
     }
     public void setIdTask(String idTask) {
         this.idTask = idTask;

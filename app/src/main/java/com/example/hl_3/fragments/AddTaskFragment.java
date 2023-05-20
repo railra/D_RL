@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -90,56 +91,61 @@ public class AddTaskFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String name = editTaskName.getText().toString();
-                String amount = editTaskAmount.getText().toString();
+                int amount = Integer.parseInt(editTaskAmount.getText().toString().isEmpty()?"0":editTaskAmount.getText().toString());
                 String start = editStartTime.getText().toString();
                 String end = editEndTime.getText().toString();
-                if(s1 != null){
-                    Task newTask = new Task(s1, name, amount, start, end, userId);
-                    taskDataBase.child(s1).setValue(newTask);
+                if(!name.isEmpty() && amount != 0 && !start.isEmpty() && !end.isEmpty()){
+                    if(s1 != null){
+                        Task newTask = new Task(s1, name, amount, start, end, userId);
+                        taskDataBase.child(s1).setValue(newTask);
+                    }
+                    else{
+                        String id = taskDataBase.push().getKey();
+                        Task newTask = new Task(id, name, amount, start, end, userId);
+                        taskDataBase.child(id).setValue(newTask);
+                    }
+                    updateData = true;
+                    ValueEventListener v1Listener = new ValueEventListener()
+                    {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot)
+                        {
+                            for(DataSnapshot ds : snapshot.getChildren())
+                            {
+
+                                User user = ds.getValue(User.class);
+                                assert user != null;
+                                if(user.email.equals(userEmail)){
+                                    if(updateData == true){
+                                        updateData = false;
+                                        sum = amount;
+                                        if(s1!=null){
+                                            sum = amount - Integer.parseInt(firstAmount);
+                                        }
+                                        userDataBase.child(user.email.substring(0, user.email.indexOf("@"))).child("score").setValue(user.score+sum);
+                                    }
+
+                                }
+                            }
+                            s1 = null;
+                            firstAmount = null;
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error)
+                        {
+                        }
+                    };
+                    userDataBase.addValueEventListener(v1Listener);
+                    TaskFragment taskView = new TaskFragment();
+                    FragmentTransaction taskTrans = getParentFragmentManager().beginTransaction();
+                    taskTrans.replace(R.id.container, taskView);
+                    taskTrans.commit();
                 }
                 else{
-                    String id = taskDataBase.push().getKey();
-                    Task newTask = new Task(id, name, amount, start, end, userId);
-                    taskDataBase.child(id).setValue(newTask);
+                    Toast.makeText(getContext(), "Заполните поля", Toast.LENGTH_SHORT).show();
                 }
-                updateData = true;
-                ValueEventListener v1Listener = new ValueEventListener()
-                {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot)
-                    {
-                        for(DataSnapshot ds : snapshot.getChildren())
-                        {
-
-                            User user = ds.getValue(User.class);
-                            assert user != null;
-                            if(user.email.equals(userEmail)){
-                                if(updateData == true){
-                                    updateData = false;
-                                    sum = Integer.parseInt(amount);
-                                    if(s1!=null){
-                                        sum = Integer.parseInt(amount) - Integer.parseInt(firstAmount);
-                                    }
-                                    userDataBase.child(user.email.substring(0, user.email.indexOf("@"))).child("score").setValue(user.score+sum);
-                                }
-
-                            }
-                        }
-                        s1 = null;
-                        firstAmount = null;
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error)
-                    {
-                    }
-                };
-                userDataBase.addValueEventListener(v1Listener);
-                TaskFragment taskView = new TaskFragment();
-                FragmentTransaction taskTrans = getParentFragmentManager().beginTransaction();
-                taskTrans.replace(R.id.container, taskView);
-                taskTrans.commit();
             }
         });
 
