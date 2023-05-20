@@ -27,6 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -43,6 +44,8 @@ public class AddTaskFragment extends Fragment {
     String firstAmount;
     int sum;
     private boolean updateData = true;
+
+    private static final DecimalFormat FORMATTER = new DecimalFormat("00");
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -152,46 +155,38 @@ public class AddTaskFragment extends Fragment {
         EditText startTimeEdit = getView().findViewById(R.id.editStartTime);
         EditText endTimeEdit = getView().findViewById(R.id.editEndTime);
 
-        final int[] startHour = new int[1];
-        final int[] startMinute = new int[1];
         startTimeEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(view == startTimeEdit){
-                    final Calendar calendar = Calendar.getInstance();
-                    startHour[0] = calendar.get(Calendar.HOUR);
-                    startMinute[0] = calendar.get(Calendar.MINUTE);
 
                     TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
                         @Override
                         public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
-                            startTimeEdit.setText(hourOfDay+ ":" + minute);
+                            startTimeEdit.setText(FORMATTER.format(hourOfDay) + ":" + FORMATTER.format(minute));
                         }
-                    }, startHour[0], startMinute[0], false);
+                    }, 0 , 0, true);
                     timePickerDialog.show();
-                }
             }
         });
 
-        final int[] endHour = new int[1];
-        final int[] endMinute = new int[1];
+
+
         endTimeEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(view == endTimeEdit){
-                    final Calendar calendar = Calendar.getInstance();
-                    endHour[0] = calendar.get(Calendar.HOUR);
-                    endMinute[0] = calendar.get(Calendar.MINUTE);
+
 
                     TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
                         @Override
                         public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
-                            endTimeEdit.setText(hourOfDay+ ":" + minute);
+                            endTimeEdit.setText(FORMATTER.format(hourOfDay)+ ":" + FORMATTER.format(minute));
                         }
-                    }, endHour[0], endMinute[0], false);
+                    },0,0, true);
                     timePickerDialog.show();
                 }
             }
         });
     }
+
 }

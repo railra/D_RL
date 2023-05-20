@@ -43,6 +43,7 @@
             android:ems="10"
             android:hint="Начал"
             android:inputType="time"
+            android:timePickerMode="spinner"
             tools:ignore="TouchTargetSizeCheck" />
 
         <EditText
