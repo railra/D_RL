@@ -1,6 +1,6 @@
 package com.example.hl_3.utilities;
 
-public class UserListItem
+public class UserListItem implements Comparable<UserListItem>
 {
     String nameUser;
     int amountUser;
@@ -21,5 +21,11 @@ public class UserListItem
 
     public void setAmountUser(int amountUser) {
         this.amountUser = amountUser;
+    }
+
+    @Override
+    public int compareTo(UserListItem o)
+    {
+        return Double.compare(this.amountUser, o.amountUser);
     }
 }
