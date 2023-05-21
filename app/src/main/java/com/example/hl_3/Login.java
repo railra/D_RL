@@ -35,7 +35,7 @@ public class Login extends AppCompatActivity {
 
     private DatabaseReference mDataBase;
     private List<User> listTemp;
-    String admin = "railra498@gmail.com";
+    String admin = "railra48@gmail.com";
 
 
     @Override
