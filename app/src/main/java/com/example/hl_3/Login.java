@@ -11,29 +11,44 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.hl_3.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Login extends AppCompatActivity {
     Button btn_lregister, btn_llogin;
     EditText et_lusername, et_lpassword;
     FirebaseAuth mAuth;
+    String username, password;
 
-    //DatabaseHelper databaseHelper;
+    private DatabaseReference mDataBase;
+    private List<User> listTemp;
+    String admin = "railra498@gmail.com";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
+        mDataBase = FirebaseDatabase.getInstance().getReference("User");
         setContentView(R.layout.activity_login);
+        listTemp = new ArrayList<>();
         FirebaseUser cUser = mAuth.getCurrentUser();
         if(cUser != null)
         {
-            if(cUser.getEmail().equals("railra48@gmail.com")){
+            if(cUser.getEmail().equals(admin)){
                 Intent intent = new Intent(Login.this, Admin.class);
                 startActivity(intent);
             }
@@ -45,11 +60,11 @@ public class Login extends AppCompatActivity {
 
         //databaseHelper = new DatabaseHelper(Login.this);
 
-        et_lusername = (EditText)findViewById(R.id.et_lusername);
-        et_lpassword = (EditText)findViewById(R.id.et_lpassword);
+        et_lusername = findViewById(R.id.et_lusername);
+        et_lpassword = findViewById(R.id.et_lpassword);
 
-        btn_llogin = (Button)findViewById(R.id.btn_llogin);
-        btn_lregister = (Button)findViewById(R.id.btn_lregister);
+        btn_llogin = findViewById(R.id.btn_llogin);
+        btn_lregister = findViewById(R.id.btn_lregister);
 
 
         btn_lregister.setOnClickListener(new View.OnClickListener() {
@@ -61,34 +76,64 @@ public class Login extends AppCompatActivity {
         });
     }
     public void onClickLogin(View view){
-        String username = et_lusername.getText().toString();
-        String password = et_lpassword.getText().toString();
+        username = et_lusername.getText().toString();
+        password = et_lpassword.getText().toString();
         if(!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password))
         {
-            mAuth.signInWithEmailAndPassword(username, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>()
-            {
+            ValueEventListener vListener = new ValueEventListener() {
                 @Override
-                public void onComplete(@NonNull Task<AuthResult> task)
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot)
                 {
-                    if (task.isSuccessful())
+                    if(listTemp.size() > 0)listTemp.clear();
+                    for(DataSnapshot ds : dataSnapshot.getChildren())
                     {
-                        if(username.equals("railra498@gmail.com")){
-                            Intent intent = new Intent(Login.this, Admin.class);
-                            startActivity(intent);
+                        User user = ds.getValue(User.class);
+                        assert user != null;
+                        if(user.status.equals("banned") && user.email.equals(username)){
+                            Toast.makeText(getApplicationContext(), "Ваш аккаунт заблокирован", Toast.LENGTH_SHORT).show();
+                            break;
                         }
                         else{
-                            Intent intent = new Intent(Login.this, MainActivity.class);
-                            startActivity(intent);
+                            SignIn();
+                            break;
                         }
-                        Toast.makeText(getApplicationContext(), "User SignIn Successful", Toast.LENGTH_SHORT).show();
-                    } else
-                    {
-                        Toast.makeText(getApplicationContext(), "User SignIn failed", Toast.LENGTH_SHORT).show();
+
                     }
+
                 }
-            });
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            };
+            mDataBase.addValueEventListener(vListener);
+
         }
     }
+    private void SignIn(){
+        mAuth.signInWithEmailAndPassword(username, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>()
+        {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task)
+            {
+                if (task.isSuccessful())
+                {
+                    if(username.equals(admin)){
+                        Intent intent = new Intent(Login.this, Admin.class);
+                        startActivity(intent);
+                    }
+                    else{
+                        Intent intent = new Intent(Login.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+                    Toast.makeText(getApplicationContext(), "User SignIn Successful", Toast.LENGTH_SHORT).show();
+                } else
+                {
+                    Toast.makeText(getApplicationContext(), "User SignIn failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
     @Override
     protected void onStop() {
         super.onStop();

@@ -86,7 +86,6 @@ public class AddTaskFragment extends Fragment {
         init();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-        String userId = currentUser.getUid();
         String userEmail = currentUser.getEmail();
 
         SimpleDateFormat timeF = new SimpleDateFormat("HH:mm", Locale.getDefault());
@@ -99,6 +98,7 @@ public class AddTaskFragment extends Fragment {
             {
                 if(s1 != null){
                     taskDataBase.child(s1).removeValue();
+
                     TaskFragment taskView = new TaskFragment();
                     FragmentTransaction taskTrans = getParentFragmentManager().beginTransaction();
                     taskTrans.replace(R.id.container, taskView);

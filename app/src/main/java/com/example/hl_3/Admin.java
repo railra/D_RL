@@ -67,11 +67,13 @@ public class Admin extends AppCompatActivity
                 }
                 adapter.notifyDataSetChanged();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         };
         mDataBase.addValueEventListener(vListener);
+
     }
     private void setOnClickItem()
     {

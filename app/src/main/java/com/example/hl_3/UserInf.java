@@ -2,8 +2,11 @@ package com.example.hl_3;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,8 +32,9 @@ public class UserInf extends AppCompatActivity
     private CustomArrayAdapter adapter_task;
     public List<TaskListItem> listItemMainFr;
     private TaskListItem listItemFr;
-    private DatabaseReference mDataBase;
+    private DatabaseReference taskDataBase, userDataBase;
     private TextView tvName, tvScore, tvEmail;
+    Button bBan;
     String ss;
 
     @Override
@@ -44,9 +48,11 @@ public class UserInf extends AppCompatActivity
 
     private void init()
     {
-        mDataBase = FirebaseDatabase.getInstance().getReference("Task");
+        taskDataBase = FirebaseDatabase.getInstance().getReference("Task");
+        userDataBase = FirebaseDatabase.getInstance().getReference("User");
         listItemMainFr = new ArrayList<>();
         doneTasksList = findViewById(R.id.listUserTasks);
+        bBan = findViewById(R.id.bAllow);
         adapter_task = new CustomArrayAdapter(this, R.layout.task_list_item, listItemMainFr, getLayoutInflater());
         doneTasksList.setAdapter(adapter_task);
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -105,7 +111,15 @@ public class UserInf extends AppCompatActivity
 
             }
         };
-        mDataBase.addValueEventListener(vListener);
+        taskDataBase.addValueEventListener(vListener);
+    }
+    public void onClickBan(View view){
+        userDataBase.child(ss.substring(0, ss.indexOf("@"))).child("status").setValue("banned");
+        Toast.makeText(getApplicationContext(), "Пользователь заблокирован", Toast.LENGTH_SHORT).show();
+    }
+    public void onClickAllow(View view){
+        userDataBase.child(ss.substring(0, ss.indexOf("@"))).child("status").setValue("allowed");
+        Toast.makeText(getApplicationContext(), "Пользователь разблокирован", Toast.LENGTH_SHORT).show();
     }
 
 }

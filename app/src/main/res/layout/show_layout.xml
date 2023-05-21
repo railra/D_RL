@@ -92,9 +92,36 @@
         android:layout_height="40dp"
         android:layout_marginTop="44dp"
         android:gravity="center"
+
         android:text="Выполненные задачи:"
         android:textSize="25dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <Button
+        android:id="@+id/bBan"
+        android:layout_width="154dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/red_400"
+        android:onClick="onClickBan"
+        android:text="Заблокировать"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.937"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <Button
+        android:id="@+id/bAllow"
+        android:layout_width="154dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/green_700"
+        android:onClick="onClickAllow"
+        android:text="Разблокировать"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.073"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
