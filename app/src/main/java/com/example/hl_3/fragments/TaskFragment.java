@@ -65,7 +65,7 @@ public class TaskFragment extends Fragment {
         doneTasksList.setAdapter(adapter_task);
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-        String uid = currentUser.getUid();
+        String userEmail = currentUser.getEmail();
         ValueEventListener vListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
@@ -76,7 +76,7 @@ public class TaskFragment extends Fragment {
 
                     Task task = ds.getValue(Task.class);
                     assert task != null;
-                    if(task.user.equals(uid)){
+                    if(task.user.equals(userEmail)){
                         listItemFr = new TaskListItem();
                         listItemFr.setNameTask(task.name);
                         listItemFr.setIdTask(task.id);

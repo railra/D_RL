@@ -123,12 +123,12 @@ public class AddTaskFragment extends Fragment {
                 String end = editEndTime.getText().toString();
                 if(!name.isEmpty() && amount != 0 && !start.isEmpty() && !end.isEmpty()){
                     if(s1 != null){
-                        Task newTask = new Task(s1, name, amount, start, end, userId);
+                        Task newTask = new Task(s1, name, amount, start, end, userEmail);
                         taskDataBase.child(s1).setValue(newTask);
                     }
                     else{
                         String id = taskDataBase.push().getKey();
-                        Task newTask = new Task(id, name, amount, start, end, userId);
+                        Task newTask = new Task(id, name, amount, start, end, userEmail);
                         taskDataBase.child(id).setValue(newTask);
                     }
                     updateData = true;
