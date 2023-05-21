@@ -2,24 +2,21 @@ package com.example.hl_3.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
-
 import com.example.hl_3.DatabaseHelper;
 import com.example.hl_3.Login;
 import com.example.hl_3.MainActivity;
 import com.example.hl_3.R;
-import com.example.hl_3.models.Task;
 import com.example.hl_3.models.User;
-import com.example.hl_3.utilities.TaskListItem;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -32,7 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 public class ProfileFragment extends Fragment {
 
     private TextView scoreAll, playerName;
-    private Button bLogOut;
+    private ImageButton bLogOut;
     DatabaseHelper databaseHelper;
     int arrayLength;
     private DatabaseReference mDataBase;

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -29,7 +30,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -37,6 +37,7 @@ public class AddTaskFragment extends Fragment {
 
     private EditText editTaskName, editTaskAmount, editStartTime, editEndTime;
     private FloatingActionButton saveBtn;
+    private Button bDeleteTask;
     private TaskFragment taskFragment = new TaskFragment();
     private List<TaskListItem> listItemMain;
     private DatabaseReference taskDataBase, userDataBase;
@@ -66,6 +67,7 @@ public class AddTaskFragment extends Fragment {
         editStartTime = getView().findViewById(R.id.editStartTime);
         editEndTime = getView().findViewById(R.id.editEndTime);
         saveBtn = getView().findViewById(R.id.button_save);
+        bDeleteTask = getView().findViewById(R.id.bDeleteTask);
         Bundle args = getArguments();
         if (args != null) {
             s1 = args.getString("task_id");
@@ -90,6 +92,28 @@ public class AddTaskFragment extends Fragment {
         SimpleDateFormat timeF = new SimpleDateFormat("HH:mm", Locale.getDefault());
         userDataBase = FirebaseDatabase.getInstance().getReference("User");
         taskDataBase = FirebaseDatabase.getInstance().getReference("Task");
+        bDeleteTask.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if(s1 != null){
+                    taskDataBase.child(s1).removeValue();
+                    TaskFragment taskView = new TaskFragment();
+                    FragmentTransaction taskTrans = getParentFragmentManager().beginTransaction();
+                    taskTrans.replace(R.id.container, taskView);
+                    taskTrans.commit();
+                    s1 = null;
+                    firstAmount = null;
+                }
+                else{
+                    TaskFragment taskView = new TaskFragment();
+                    FragmentTransaction taskTrans = getParentFragmentManager().beginTransaction();
+                    taskTrans.replace(R.id.container, taskView);
+                    taskTrans.commit();
+                }
+            }
+        });
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
